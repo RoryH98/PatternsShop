@@ -9,5 +9,5 @@ public interface UserRepository extends JpaRepository<User, Integer>{
 	//Have all the crud Statements
 	//Only have to implement custom statements
 	
-	
+	User findByEmail(String email);
 }

@@ -79,8 +79,7 @@
 		</c:forEach>
 	</div>
 	<form action="/goToPayment" method="GET" class="form-inline my-2 my-lg-0">
-			<button class="btn btn-secondary my-2 my-sm-0" type="submit">View
-				Cart</button>
+			<button class="btn btn-secondary my-2 my-sm-0" type="submit">Pay ${cartPrice}</button>
 		</form>
 </body>
 </html>

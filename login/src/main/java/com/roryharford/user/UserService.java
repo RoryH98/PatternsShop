@@ -94,6 +94,11 @@ public class UserService {
 		return user;
 
 	}
+
+	public User getUserByEmail(String name) {
+		// TODO Auto-generated method stub
+		return customerRepository.findByEmail(name);
+	}
 	
 //	public void createUser(User user) {
 //		user.setPassword(encoder.encode(user.getPassword())); 

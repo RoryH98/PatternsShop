@@ -18,34 +18,42 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-
+import com.roryharford.order.Order;
 
 //Creates Table in DB
 @Entity
 @Table(name = "user")
 public class User {
 
-	
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles;
+	
+	
+	@OneToMany(fetch = FetchType.EAGER)
+	@JoinColumn(name = "user_id")
+	private List<Order> orders = new ArrayList<>();
 	// Marks Id as Primary key
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	private int active;
 	private String username;
+	private String choice;
 	private String email;
+	private String shipping_Address;
+
 	private String password;
 
 	public User() {
 
 	}
 
-	public User(String name, String email, String password,int active) {
-		super();
-		this.username = name;
+	public User(String username, String choice, String email, String shipping_Address, String password,int active) {
+		this.username = username;
+		this.choice = choice;
 		this.email = email;
+		this.shipping_Address = shipping_Address;
 		this.password = password;
 	}
 
@@ -97,7 +105,23 @@ public class User {
 		this.password = password;
 	}
 
-//	public void addTicket(Ticket ticket) {
+	public String getChoice() {
+		return choice;
+	}
+
+	public void setChoice(String choice) {
+		this.choice = choice;
+	}
+
+	public String getShipping_Address() {
+		return shipping_Address;
+	}
+
+	public void setShipping_Address(String shipping_Address) {
+		this.shipping_Address = shipping_Address;
+	}
+
+	// public void addTicket(Ticket ticket) {
 //		tickets.add(ticket);
 //	}
 //
@@ -108,7 +132,7 @@ public class User {
 //	public void setTickets(List<Ticket> tickets) {
 //		this.tickets = tickets;
 //	}
-	public Set<Role> getRoles(){
+	public Set<Role> getRoles() {
 		return roles;
 	}
 
@@ -116,5 +140,15 @@ public class User {
 		// TODO Auto-generated method stub
 		this.roles = roles;
 	}
+
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
+	}
+	
+	
 
 }

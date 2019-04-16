@@ -113,31 +113,8 @@ public class UserController {
 	}
 	
 
-	@RequestMapping(method = RequestMethod.POST, value = "/upload")
-	public String handleFIleUpload(@RequestParam("file") MultipartFile file) {
-		BasicAWSCredentials creds = new BasicAWSCredentials("AKIAITAEL7BGCI2WOZMA",
-				"czY/LBxMNNgabRanQdt1pNm7jbM+Fl2iDKOFdjup");
-		AmazonS3 s3Client = AmazonS3Client.builder().withRegion("eu-west-1")
-				.withCredentials(new AWSStaticCredentialsProvider(creds)).build();
 
-		InputStream is;
-		try {
-			is = file.getInputStream();
-
-			// save on s3 wont allow me to save with public read access
-			s3Client.putObject(new PutObjectRequest("tickets-fare-images", "newFile", is, new ObjectMetadata())
-					.withCannedAcl(CannedAccessControlList.PublicRead));
-
-			// Get a refernce to the image Object
-			S3Object s3object = s3Client.getObject(new GetObjectRequest("tickets-fare-images", "newFile"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return "homepage";
-
-	}
+	
 
 	@RequestMapping("/users")
 	public List<User> getAllUsers() {
@@ -177,35 +154,10 @@ public class UserController {
 		return "homepage";
 	}
 
-//	@PostMapping("/login")
-//	public String verifyCustomer(@ModelAttribute UserLoginDetails CustomerDetails, HttpSession session,
-//			RedirectAttributes attr, final BindingResult binding, Model model) {
-//		// Your code here
-//		
-//		User user = userService.loginCustomer(CustomerDetails.getInputEmail(), CustomerDetails.getInputPassword());
-//		if (user == null) {
-//			attr.addFlashAttribute("org.springframework.validation.BindingResult.register", binding);
-//			attr.addFlashAttribute("msg", "Wrong Details");
-//			return "redirect:/";
-//		} else {
-//			ticketService.createEventArray(0);
-//			model.addAttribute("lists", ticketService.getEventList());
-//			session.setAttribute("user", user);
-//			System.out.println("HELLO" +user.getId());
-////			for (int i = 0; i < userService.getEventList().size(); i++) {
-////				System.out.println(userService.getEventList().get(i).toString());
-////			}
-//
-////			if (userService.getEventList().size() < 0) {
-////				System.out.println("NO TICKETS");
-////			}
-//			
-//			return "success";
-//		}
-//	}
 
 	@RequestMapping("/logout")
 	public String logoutCustomer(HttpServletRequest request) {
+		
 
 		HttpSession session = request.getSession();
 		session.invalidate();
@@ -227,7 +179,6 @@ public class UserController {
 ////			String errorMessage = "";
 ////			model.addObject("errorMessage", errorMessage);
 //		} else {
-		System.out.println("IN COntroller " + user.getName());
 		userService.createCustomer(user);
 
 //			String successMessage = "";
@@ -239,44 +190,7 @@ public class UserController {
 //  return null;
 
 	}
-//	public String registerCustomer(Model model, @ModelAttribute User customer, HttpSession session,
-//			@RequestParam("file") MultipartFile file) {
-//
-//		BasicAWSCredentials creds = new BasicAWSCredentials("AKIAI5BANVNXM3EHHWMQ",
-//				"vVsj1Kd+iQ0LKyOgSuS5PVM8vJ00fdGMll1jCc6r");
-//		AmazonS3 s3Client = AmazonS3Client.builder().withRegion("eu-west-1")
-//				.withCredentials(new AWSStaticCredentialsProvider(creds)).build();
-//
-//		InputStream is;
-//		try {
-//			ticketService.createEventArray(0);
-//			User customertype = userService.createCustomer(customer);
-//			if (customertype == null) {
-//				return "redirect:/";
-//			}
-//
-//			session.setAttribute("customer", customer);
-//			is = file.getInputStream();
-//			// save on s3 wont allow me to save with public read access
-////			tickets-images-fare
-//			String imageName = "Image Number " + customer.getId();
-//			s3Client.putObject(new PutObjectRequest("tickets-images-fare", imageName, is, new ObjectMetadata())
-//					.withCannedAcl(CannedAccessControlList.PublicRead));
-//
-//			// Get a refernce to the image Object
-//			S3Object s3object = s3Client.getObject(new GetObjectRequest("tickets-images-fare", imageName));
-//
-////			//add to a model
-//			model.addAttribute("picUrl", s3object.getObjectContent().getHttpRequest().getURI().toString());
-//
-//			System.out.println(s3object.getObjectContent().getHttpRequest().getURI().toString());
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		return "success";
-//
-//	}
+
 
 	@RequestMapping("/registerPage")
 	public String showRegister() {

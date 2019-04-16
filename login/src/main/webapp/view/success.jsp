@@ -45,8 +45,8 @@
 					href="http://localhost:8080/homepage">Home <span
 						class="sr-only">(current)</span>
 				</a></li>
-				<li class="nav-item"><a class="nav-link" href="/viewTickets">View
-						Your Tickets</a></li>
+				<li class="nav-item"><a class="nav-link" href="/viewCart">View
+						Your Cart</a></li>
 				<li class="nav-item"><a class="nav-link" href="#">Account
 						Information</a></li>
 				<li class="nav-item"><a class="nav-link"
@@ -66,10 +66,9 @@
 				</div>
 				<div class="end">
 					<div class="info">
-						<%-- <p class="location">${list.arena}</p> --%>
-						<div class="datetime">
-							<%-- <p class="date">${list.date}</p>
-							<p class="time">${list.time}</p> --%>
+						<p class="location">${list.category}</p>
+						<div class="location">
+							<p class="date">${list.manufacturer}</p>
 						</div>
 					</div>
 					<p class="price">€ ${list.price}</p>
@@ -78,6 +77,10 @@
 						<input type="hidden" name="id" id="id" value=${list.id } />
 						<button type="submit" class="purchase-button">Add to Cart</button>
 					</form>
+					<form action="/addItemToCart" method="POST">
+						<input type="hidden" name="id" id="id" value=${list.id } />
+						<button type="submit" class="purchase-button">View Comments/Reviews</button>
+					</form>
 					<!-- 	<button type="submit" class="purchase-button">Purchase</button> -->
 
 				</div>
@@ -85,9 +88,10 @@
 		</c:forEach>
 	</div>
 	<div>
-			<form action="/viewCart" method="GET" class="form-inline my-2 my-lg-0">
-				<button class="btn btn-secondary my-2 my-sm-0" type="submit">View Cart</button>
-			</form>
+		<form action="/viewCart" method="GET" class="form-inline my-2 my-lg-0">
+			<button class="btn btn-secondary my-2 my-sm-0" type="submit">View
+				Cart</button>
+		</form>
 	</div>
 </body>
 </html>
