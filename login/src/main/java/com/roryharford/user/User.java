@@ -38,10 +38,6 @@ public class User {
 	private String email;
 	private String password;
 
-//	@OneToMany(fetch = FetchType.EAGER)
-//	@JoinColumn(name = "user_id")
-//	private List<Ticket> tickets = new ArrayList<>();
-
 	public User() {
 
 	}

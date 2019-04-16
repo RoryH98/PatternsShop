@@ -77,13 +77,21 @@ import com.itextpdf.text.pdf.PdfWriter;
 //import com.roryharford.ticket.Ticket;
 //import com.roryharford.ticket.TicketController;
 //import com.roryharford.ticket.TicketService;
+import com.roryharford.item.Item;
+import com.roryharford.item.ItemService;
+
 
 //will eventually be mapped to Customer
 @Controller
 public class UserController {
+	//since not an api think of adapting it more
+	private ArrayList<Item> list = new ArrayList<Item>();
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private ItemService itemService;
 	
 
 //	@Autowired
@@ -97,8 +105,13 @@ public class UserController {
 
 	@RequestMapping(value = "/homepage")
 	public String redirect(Model model) {
+//		Item item = new Item("Toaster",20,1"https://target.scene7.com/is/image/Target/GUEST_087da4b9-d9a0-47ad-bed0-e39af7bcf89b?wid=488&hei=488&fmt=pjpeg");
+//		list.add(item);
+		System.out.println("AMOUNT"+itemService.getAllItems().size());
+		model.addAttribute("lists", itemService.getAllItems());
 		return "success";
 	}
+	
 
 	@RequestMapping(method = RequestMethod.POST, value = "/upload")
 	public String handleFIleUpload(@RequestParam("file") MultipartFile file) {

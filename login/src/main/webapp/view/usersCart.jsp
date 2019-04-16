@@ -31,8 +31,7 @@
 <body class="text-center">
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<a class="navbar-brand" href="http://localhost:8080/homepage"><img
-			src="http://127.0.0.1:127/images/logo_2.png" height="70px" /> Gigz
-			Eaze</a>
+			src="http://127.0.0.1:127/images/logo_2.png" height="70px" />SHOP </a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#navbarColor03" aria-controls="navbarColor03"
 			aria-expanded="false" aria-label="Toggle navigation">
@@ -46,49 +45,42 @@
 						class="sr-only">(current)</span>
 				</a></li>
 				<li class="nav-item active"><a class="nav-link"
-					href="/viewTickets">View Your Tickets</a></li>
+					href="/viewTickets">View Your Cart</a></li>
 				<li class="nav-item"><a class="nav-link" href="#">Account
 						Information</a></li>
 				<li class="nav-item"><a class="nav-link"
 					href="http://localhost:8080/logout">Logout</a></li>
 			</ul>
 			</ul>
-			<form action="/searchEvents" method="GET"
-				class="form-inline my-2 my-lg-0">
-				<input id="keyword" name="keyword" class="form-control mr-sm-2"
-					type="text" placeholder="Search">
-				<button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-			</form>
 		</div>
 	</nav>
 	<%-- <br>Image here: <img src= ${picUrl} />--%>
 	<div id="gig-search">
 		<c:forEach var="list" items="${lists}">
 			<div class="search-result">
-				<img src="http://127.0.0.1:127/images/logo_2.png" />
+				<img src="${list.imageUrl}"/>
 				<!-- <p>${list.id}</p> -->
 				<div class="search-content">
-					Your ticket
-					<p class="artist">${list.name}</p>
-					<div class="search-info">
+					Item
+					<p class="artist">${list.itemName}</p>
+				<%-- 	<div class="search-info">
 						<p class="location">${list.arena}</p>
-						<div class="datetime">
-							<p class="date">${list.date}</p>
-							<p class="time">${list.time}</p>
-						</div>
-					</div>
+					</div> --%>
 				</div>
 				<div class="pricing-info">
 					<p class="price">€ ${list.price}</p>
-					<!-- <p><a href="<c:url value='/purchase-tickets'><c:param name="id" value="${list.id}"/></c:url>">Purchase</a></p> -->
-					<form id="downloadPdf" method="GET"
-						action="/download-PDF/${list.id}" novalidate="novalidate"
+					<form id="removeItem" method="Post" action="/removeItem" novalidate="novalidate"
 						target="_blank">
-						<button class="purchase-button">Open as PDF</button>
+						<input type="hidden" name="id" id="id" value=${list.id} />
+						<button class="purchase-button">Remove Item</button>
 					</form>
 				</div>
 			</div>
 		</c:forEach>
 	</div>
+	<form action="/goToPayment" method="GET" class="form-inline my-2 my-lg-0">
+			<button class="btn btn-secondary my-2 my-sm-0" type="submit">View
+				Cart</button>
+		</form>
 </body>
 </html>
