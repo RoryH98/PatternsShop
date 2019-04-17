@@ -77,7 +77,8 @@
 						<input type="hidden" name="id" id="id" value=${list.id } />
 						<button type="submit" class="purchase-button">Add to Cart</button>
 					</form>
-					<form action="/addItemToCart" method="POST">
+					<br>
+					<form action="/viewComments" method="POST">
 						<input type="hidden" name="id" id="id" value=${list.id } />
 						<button type="submit" class="purchase-button">View Comments/Reviews</button>
 					</form>
