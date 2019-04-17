@@ -73,6 +73,9 @@ import com.google.gson.JsonParser;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.roryharford.card.Card;
+import com.roryharford.card.CardService;
+import com.roryharford.card.CardValidator;
 //import com.roryharford.event.Event;
 //import com.roryharford.ticket.Ticket;
 //import com.roryharford.ticket.TicketController;
@@ -93,6 +96,11 @@ public class UserController {
 	@Autowired
 	private ItemService itemService;
 	
+	@Autowired
+	private CardService cardService;
+	
+	@Autowired
+	private CardValidator cardValidator;
 
 //	@Autowired
 //	private TicketService ticketService;
@@ -133,7 +141,7 @@ public class UserController {
 	}
 
 	@PutMapping(value = "/users/{id}")
-	public void updateUser(@RequestBody User User, @PathVariable String id) {
+	public void updateUser(@RequestBody User User, @PathVariable int id) {
 		userService.updateUser(id, User);
 	}
 
@@ -165,12 +173,25 @@ public class UserController {
 
 	}
 
+
 	@PostMapping("/register")
-	public String createUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult) {
+	public String createUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult,@RequestParam String address, @RequestParam String town, @RequestParam String county, 
+			@RequestParam String number, @RequestParam String choice, @RequestParam String fname, @RequestParam String lname, @RequestParam int date, @RequestParam int year) {
 		// change to their email
 		User userExists = userService.getUser(user.getId());
-
-//		if (userExists != null) {
+		int type = Integer.parseInt(choice);
+		Card card = new Card(fname, lname, address, town, county, number, type, date, year);
+		Card validCard = cardValidator.initComponents(card);
+		cardService.addCard(validCard);
+		user.setCard(card);
+		userService.createCustomer(user);
+		
+		
+		
+		
+		
+		
+        System.out.println("ADDRESS "+address);
 //			bindingResult.rejectValue("username", "error.user");
 //		}
 //		if (bindingResult.hasErrors()) {
@@ -179,7 +200,8 @@ public class UserController {
 ////			String errorMessage = "";
 ////			model.addObject("errorMessage", errorMessage);
 //		} else {
-		userService.createCustomer(user);
+		
+		
 
 //			String successMessage = "";
 //			model.addObject("successMessage", successMessage);

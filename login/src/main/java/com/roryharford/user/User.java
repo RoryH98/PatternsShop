@@ -16,8 +16,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.roryharford.card.Card;
 import com.roryharford.order.Order;
 
 //Creates Table in DB
@@ -28,6 +30,9 @@ public class User {
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles;
+	
+	@OneToOne( cascade = {CascadeType.ALL})
+	Card card;
 	
 	
 	@OneToMany(fetch = FetchType.EAGER)
@@ -55,6 +60,16 @@ public class User {
 		this.email = email;
 		this.shipping_Address = shipping_Address;
 		this.password = password;
+	}
+	
+	
+
+	public Card getCard() {
+		return card;
+	}
+
+	public void setCard(Card card) {
+		this.card = card;
 	}
 
 	public int getActive() {

@@ -83,7 +83,6 @@
 						<button type="submit" class="purchase-button">View Comments/Reviews</button>
 					</form>
 					<!-- 	<button type="submit" class="purchase-button">Purchase</button> -->
-
 				</div>
 			</div>
 		</c:forEach>
