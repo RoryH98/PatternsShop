@@ -141,7 +141,7 @@ public class UserController {
 	}
 
 	@PutMapping(value = "/users/{id}")
-	public void updateUser(@RequestBody User User, @PathVariable int id) {
+	public void updateUser(@RequestBody User User, @PathVariable String id) {
 		userService.updateUser(id, User);
 	}
 
@@ -181,10 +181,20 @@ public class UserController {
 		User userExists = userService.getUser(user.getId());
 		int type = Integer.parseInt(choice);
 		Card card = new Card(fname, lname, address, town, county, number, type, date, year);
+		
+			
+	
 		Card validCard = cardValidator.initComponents(card);
-		cardService.addCard(validCard);
-		user.setCard(card);
-		userService.createCustomer(user);
+		if(validCard !=null) {
+			cardService.addCard(validCard);
+			user.setCard(validCard);
+			userService.createCustomer(user);
+		}
+		else {
+			System.out.println("ERROR-TRY AGAIN");
+			return "register";
+		}
+		
 		
 		
 		

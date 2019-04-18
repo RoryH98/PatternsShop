@@ -52,6 +52,13 @@
 				<li class="nav-item"><a class="nav-link"
 					href="http://localhost:8080/logout">Logout</a></li>
 			</ul>
+			
+			<form action="/searchProducts" method="GET"
+				class="form-inline my-2 my-lg-0">
+				<input id="keyword" name="keyword" class="form-control mr-sm-2"
+					type="text" placeholder="Search">
+				<button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+			</form>
 		</div>
 	</nav>
 	<%-- <br>Image here: <img src= ${picUrl} />--%>

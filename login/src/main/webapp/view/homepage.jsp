@@ -35,8 +35,8 @@
 							<form method="POST" action="/login">
 								<span>${msg}</span>
 								<div class="form-group">
-									<label for="inputEmail" class="control-label">Email</label> <input
-										type="text" class="form-control" id="Email" name="email"
+									<label for="email" class="control-label">Email</label> <input
+										type="text" class="form-control" id="email" name="email"
 										value="" required="" title="Please enter you inputEmail"
 										placeholder="example@gmail.com" /> <span class="help-block"></span>
 								</div>

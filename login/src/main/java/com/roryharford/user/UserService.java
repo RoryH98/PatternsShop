@@ -61,7 +61,7 @@ public class UserService {
 		customerRepository.save(user);
 	}
 
-	public void updateUser(int i, User user) {
+	public void updateUser(String id, User user) {
 		// A save can update and add a User because the User has information about what
 		// it is an a repository can check if it already exists or not.
 		customerRepository.save(user);

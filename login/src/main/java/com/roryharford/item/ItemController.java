@@ -1,5 +1,7 @@
 package com.roryharford.item;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -43,11 +45,23 @@ public class ItemController {
 	
 	@RequestMapping(value = "/viewCart", method = RequestMethod.GET)
 	public String viewCart(Model model) {
-		System.out.println("VIEWING CART.....");
 		System.out.println("\n Cart Size now "+itemService.getCart().size());
 		model.addAttribute("cartPrice", itemService.getPrice());
 		model.addAttribute("lists", itemService.getCart());
 		return "usersCart";
+	}
+	
+	@RequestMapping(value = "/searchProducts", method = RequestMethod.GET)
+	public String searchProducts(Model model, @RequestParam("keyword") String keyword) {
+		ArrayList<Item> items = new ArrayList<>();
+		System.out.println(itemService.getAllItems().size());
+		for(int i=0; i<itemService.getAllItems().size();i++) {
+			if(itemService.getAllItems().get(i).getCategory().contains(keyword) || itemService.getAllItems().get(i).getItemName().contains(keyword) || itemService.getAllItems().get(i).getManufacturer().contains(keyword)) {
+				items.add(itemService.getAllItems().get(i));
+			}
+		}
+		model.addAttribute("lists",items);
+		return "success";
 	}
 	
 	@RequestMapping(value = "/goToPayment", method = RequestMethod.GET)
