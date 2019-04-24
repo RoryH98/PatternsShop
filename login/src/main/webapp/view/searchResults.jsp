@@ -82,7 +82,9 @@
 			<p class="price">Reviews</p>
 			<textarea autofocus readonly rows="10" cols="50"
 				style="font-size: 14px; font-weight: normal; resize: none; overflow-y: scroll";
-			><c:forEach var="comment" items="${comments}">User: ${comment.name}<br>Rating: ${comment.rating}<br>comment: ${comment.comment}
+			><c:forEach var="comment" items="${comments}">User: ${comment.name} 
+Rating: ${comment.rating} 
+comment: ${comment.comment}
 	</c:forEach>
 	</textarea>
 		</div>

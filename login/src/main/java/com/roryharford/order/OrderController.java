@@ -85,7 +85,6 @@ import com.roryharford.item.ItemService;
 @Controller
 public class OrderController {
 	//since not an api think of adapting it more
-	private ArrayList<Item> list = new ArrayList<Item>();
 
 	@Autowired
 	private OrderService userService;
@@ -96,6 +95,8 @@ public class OrderController {
 
 //	@Autowired
 //	private TicketService ticketService;
+	
+	
 
 
 }

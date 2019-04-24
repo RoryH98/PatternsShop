@@ -17,7 +17,7 @@ public class ItemService {
 	@Autowired
 	private ItemRepository itemRepository;
 	
-	private ArrayList<Item> cart = new ArrayList<Item>();
+	
 	
 	public List<Item> getAllItems() {
 		// connects to the database and runs a query
@@ -33,13 +33,13 @@ public class ItemService {
 		return itemRepository.getOne( id);
 	}
 	
-	public double getPrice() {
-		double price = 0;
-		for(int i=0; i<cart.size();i++) {
-			price = price + cart.get(i).getPrice();
-		}
-		return price;
-	}
+//	public double getPrice() {
+//		double price = 0;
+//		for(int i=0; i<cart.size();i++) {
+//			price = price + cart.get(i).getPrice();
+//		}
+//		return price;
+//	}
 	
 //	public User getUserByEmail(String email) {
 //		// return Users.stream().filter(t -> t.getId().equals(id)).findFirst().get();
@@ -57,20 +57,9 @@ public class ItemService {
 		itemRepository.save(item);
 	}
 	
-	public void addItemToCart(Item item)
-	{
-		cart.add(item);
-	}
 	
-	public List<Item> getCart() {
-		// connects to the database and runs a query
-		return cart;
-	}
 	
-	public Item getCartItem(int i) {
-		
-		return this.cart.get(i);
-	}
+	
 
 	public List<Comment> getCommentForItem(int newId) {
 		Item item =this.getItem(newId);

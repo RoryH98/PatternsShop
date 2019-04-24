@@ -15,6 +15,10 @@ public class Card {
 	
 	private String firstName, surname, address, town, county, cardNumber;
 	private int cardType, expiryMonth, expiryYear;
+	
+	public Card() {
+		
+	}
 
 	public Card(String firstName, String surname, String address, String town, String county, 
 			String cardNumber, int cardType, int expiryMonth, int expiryYear) {

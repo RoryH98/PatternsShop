@@ -33,7 +33,7 @@ public class Order {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
-	private int amount;
+	private double amount;
 	
 	
 	@LazyCollection(LazyCollectionOption.FALSE)
@@ -70,12 +70,12 @@ public class Order {
 	
 	
 	
-	public int getAmount() {
+	public double getAmount() {
 		return amount;
 	}
 
-	public void setAmount(int amount) {
-		this.amount = amount;
+	public void setAmount(double d) {
+		this.amount = d;
 	}
 
 	public void addItem(Item item) {

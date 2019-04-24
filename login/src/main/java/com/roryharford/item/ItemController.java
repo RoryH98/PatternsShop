@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.roryharford.cart.Cart;
+import com.roryharford.loyaltycard.Gold;
+import com.roryharford.loyaltycard.Silver;
+import com.roryharford.loyaltycard.Standard;
 import com.roryharford.order.Order;
 import com.roryharford.order.OrderService;
 import com.roryharford.user.User;
@@ -27,6 +31,8 @@ public class ItemController {
 	
 	@Autowired
 	private OrderService orderService;
+	
+	Cart cart = new Cart();
 
 
 	
@@ -36,19 +42,44 @@ public class ItemController {
 		int newId = Integer.parseInt(id);
 		Item item = itemService.getItem(newId);
 		
-		itemService.addItemToCart(item);
+		cart.addItemToCart(item);
 		
-		System.out.println("\n Cart Size now "+itemService.getCart().size());
+		System.out.println("\n Cart Size now "+cart.getCart().size());
 		model.addAttribute("lists", itemService.getAllItems());
 		return "success";
 	}
 	
 	@RequestMapping(value = "/viewCart", method = RequestMethod.GET)
 	public String viewCart(Model model) {
-		System.out.println("\n Cart Size now "+itemService.getCart().size());
-		model.addAttribute("cartPrice", itemService.getPrice());
-		model.addAttribute("lists", itemService.getCart());
+		System.out.println("\n Cart Size now "+cart.getCart().size());
+		model.addAttribute("cartPrice", cart.calcTotalCost());
+		model.addAttribute("lists", cart.getCart());
 		return "usersCart";
+	}
+	
+	@RequestMapping(value = "/confirmLoyaltyCard")
+    public String pickLoyaltyCard( Model model, @RequestParam String loyaltyCard) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = userService.getUserByEmail(auth.getName());
+    	model.addAttribute("card", loyaltyCard);
+    	
+    	
+    	if(loyaltyCard.equalsIgnoreCase("Gold"))
+    	{
+    		
+    		cart.setTotal(cart.discount(new Gold(loyaltyCard)));
+    	}
+    	else if(loyaltyCard.equalsIgnoreCase("Silver"))
+    	{
+    		cart.discount(new Silver(loyaltyCard));
+    	} else if(loyaltyCard.equalsIgnoreCase("Standard"))
+    	{
+    		cart.discount(new Standard(loyaltyCard));
+    	}
+    	
+    	model.addAttribute("cartPrice", cart.getTotal());
+		model.addAttribute("lists", cart.getCart());
+		return "usersCartAfterLoyalty";
 	}
 	
 	@RequestMapping(value = "/searchProducts", method = RequestMethod.GET)
@@ -66,27 +97,29 @@ public class ItemController {
 	
 	@RequestMapping(value = "/goToPayment", method = RequestMethod.GET)
 	public String payment(Model model) {
-		System.out.println("\n Cart Full Price "+itemService.getPrice());
+		System.out.println("\n Cart Full Price "+cart.calcTotalCost());
 	//	model.addAttribute("lists", itemService.getCart());
-		model.addAttribute("price", itemService.getPrice());
+		model.addAttribute("price", cart.calcTotalCost());
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.getUserByEmail(auth.getName());
 		Order order = new Order(1);
 		orderService.addOrder(order);
 		Item item ;
-		System.out.println("\n Cart Size now "+itemService.getCart().get(0).getItemName());
-		for(int i=0; i<itemService.getCart().size();i++) {
-		item =	itemService.getCart().get(i);
+		System.out.println("\n Cart Size now "+cart.getCart().get(0).getItemName());
+		for(int i=0; i<cart.getCart().size();i++) {
+		item =	cart.getCart().get(i);
 		item.setStock(item.getStock()-1);
 		System.out.println(item.getItemName());
 		order.addItem(item);
 		}
 		user.getOrders().add(order);
+		order.setAmount(cart.getTotal());
 		
 		orderService.updateOrder(order.getId(), order);
 		
 		System.out.println("User Purchased Basket");
+		model.addAttribute("lists", itemService.getAllItems());
 		return "success";
 	}
 	

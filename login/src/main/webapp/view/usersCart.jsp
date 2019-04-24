@@ -58,28 +58,41 @@
 	<div id="gig-search">
 		<c:forEach var="list" items="${lists}">
 			<div class="search-result">
-				<img src="${list.imageUrl}"/>
+				<img src="${list.imageUrl}" />
 				<!-- <p>${list.id}</p> -->
 				<div class="search-content">
 					Item
 					<p class="artist">${list.itemName}</p>
-				<%-- 	<div class="search-info">
+					<%-- 	<div class="search-info">
 						<p class="location">${list.arena}</p>
 					</div> --%>
 				</div>
 				<div class="pricing-info">
 					<p class="price">€ ${list.price}</p>
-					<form id="removeItem" method="Post" action="/removeItem" novalidate="novalidate"
-						target="_blank">
-						<input type="hidden" name="id" id="id" value=${list.id} />
+					<br>
+					<form id="removeItem" method="Post" action="/removeItem"
+						novalidate="novalidate" target="_blank">
+						<input type="hidden" name="id" id="id" value=${list.id } />
 						<button class="purchase-button">Remove Item</button>
 					</form>
 				</div>
 			</div>
 		</c:forEach>
 	</div>
-	<form action="/goToPayment" method="GET" class="form-inline my-2 my-lg-0">
-			<button class="btn btn-secondary my-2 my-sm-0" type="submit">Pay ${cartPrice}</button>
-		</form>
+	<form action="confirmLoyaltyCard" method="post">
+		<label for="Loyalty Card" class="control-label">Loyalty Card
+			Type</label> <br> <select id="loyaltyCard" name="loyaltyCard">
+			<option value="Standard">Standard 10%</option>
+			<option value="Silver">Silver 20%</option>
+			<option value="Gold">Gold 30%</option>
+		</select>
+		<button id="itemButton" class="form-control">Confirm Loyalty
+			Card</button>
+	</form>
+	<form action="/goToPayment" method="GET"
+		class="form-inline my-2 my-lg-0">
+		<button class="btn btn-secondary my-2 my-sm-0" type="submit">Pay
+			${cartPrice}</button>
+	</form>
 </body>
 </html>
