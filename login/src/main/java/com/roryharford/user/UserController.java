@@ -76,12 +76,15 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.roryharford.card.Card;
 import com.roryharford.card.CardService;
 import com.roryharford.card.CardValidator;
+import com.roryharford.item.InStockItem;
 //import com.roryharford.event.Event;
 //import com.roryharford.ticket.Ticket;
 //import com.roryharford.ticket.TicketController;
 //import com.roryharford.ticket.TicketService;
 import com.roryharford.item.Item;
 import com.roryharford.item.ItemService;
+import com.roryharford.item.ItemState;
+import com.roryharford.item.OutOfItem;
 
 
 //will eventually be mapped to Customer
@@ -115,11 +118,41 @@ public class UserController {
 	public String redirect(Model model) {
 //		Item item = new Item("Toaster",20,1"https://target.scene7.com/is/image/Target/GUEST_087da4b9-d9a0-47ad-bed0-e39af7bcf89b?wid=488&hei=488&fmt=pjpeg");
 //		list.add(item);
+		 List<Item> items = new ArrayList<>();
+		 boolean state;
+		 ItemState outOfItem = new OutOfItem();
+		 ItemState inStockItem = new InStockItem();
+//		 User newAdmin = new User("Admin", "N/A", "Admin@Admin.Admin", "N/A", "Admin", 2);
+//		 userService.createCustomer(newAdmin);
+		 for(int i=0; i<itemService.getAllItems().size();i++) {
+			 Item item = itemService.getItem(i+1);
+			 if(itemService.getAllItems().get(i).getStock()<=0) {
+				 state = outOfItem.stateOfStock();
+				 item.setItemState(state);
+				 System.out.println("Item name Plus "+state);
+//				 model.addAttribute("state","Out Of Stock");
+			 }
+			 else
+			 {
+				 state = inStockItem.stateOfStock();
+				 item.setItemState(state);
+				 System.out.println("Item name Plus "+item.getItemName()+"State of item "+state);
+//				 state = inStockItem.stateOfStock();
+//				 model.addAttribute("state","In Stock");
+			 }
+			 itemService.updateItem(item.getId(), item);
+			
+		 }
 		System.out.println("AMOUNT"+itemService.getAllItems().size());
 		model.addAttribute("lists", itemService.getAllItems());
 		return "success";
 	}
 	
+	@RequestMapping("/Admin")
+	public String  Admin() {
+		System.out.println("\nGoing to the Admin Page");
+		return "success";
+	}
 
 
 	

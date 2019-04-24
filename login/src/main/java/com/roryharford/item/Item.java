@@ -24,7 +24,7 @@ import com.roryharford.order.Order;
 //Creates Table in DB
 @Entity
 @Table(name = "item")
-public class Item {
+public class Item  {
 
 	// Marks Id as Primary key
 	@Id
@@ -40,12 +40,14 @@ public class Item {
 	@JoinColumn(name = "user_id")
 	private List<Comment> comments = new ArrayList<>();
 	
+	boolean state;
+	
 
 	public Item() {
 
 	}
 
-	public Item(String itemName, double price, double stock, String imageUrl, String manufacturer, String category) {
+	public Item(String itemName, double price, double stock, String imageUrl, String manufacturer, String category,boolean itemState) {
 
 		this.itemName = itemName;
 		this.price = price;
@@ -53,13 +55,31 @@ public class Item {
 		this.imageUrl = imageUrl;
 		this.manufacturer = manufacturer;
 		this.category = category;
+		
 	}
-	
-	
+//	
+//	public boolean getState() {
+//		return itemState.stateOfStock();
+//	}
 
+//	public boolean stateOfStock(ItemState item) {
+//		// TODO Auto-generated method stub
+//		itemState = item.stateOfStock();
+//		return itemState;
+//	}
+	
+	
 	
 	public List<Comment> getComments() {
 		return comments;
+	}
+
+	public boolean getState() {
+		return state;
+	}
+
+	public void setItemState(boolean state) {
+		this.state = state;
 	}
 
 	public void setComments(List<Comment> comments) {
@@ -121,5 +141,7 @@ public class Item {
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
 	}
+
+	
 
 }

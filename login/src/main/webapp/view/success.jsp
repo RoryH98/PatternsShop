@@ -47,12 +47,12 @@
 				</a></li>
 				<li class="nav-item"><a class="nav-link" href="/viewCart">View
 						Your Cart</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">Account
-						Information</a></li>
+				<li class="nav-item"><a class="nav-link" href="/Admin">Admin Access Only
+						</a></li>
 				<li class="nav-item"><a class="nav-link"
 					href="http://localhost:8080/logout">Logout</a></li>
 			</ul>
-			
+
 			<form action="/searchProducts" method="GET"
 				class="form-inline my-2 my-lg-0">
 				<input id="keyword" name="keyword" class="form-control mr-sm-2"
@@ -78,16 +78,30 @@
 							<p class="date">${list.manufacturer}</p>
 						</div>
 					</div>
+				<%-- 	<c:choose>
+						<c:when test="${!list.state}">Out of Stock</c:when>
+						<c:when test="${list.state}">In Stock</c:when>
+					</c:choose> --%>
 					<p class="price">€ ${list.price}</p>
+					<div>
+						<c:choose>
+							<c:when test="${!list.state}">Out of Stock</c:when>
+							<c:when test="${list.state}">
+								<form action="/addItemToCart" method="POST">
+									<input type="hidden" name="id" id="id" value=${list.id } />
+									<button type="submit" class="purchase-button">Add to
+										Cart</button>
+								</form>
+							</c:when>
+						</c:choose>
+					</div>
 					<!-- <p><a href="<c:url value='/purchase-tickets'><c:param name="id" value="${list.id}"/></c:url>">Purchase</a></p> -->
-					<form action="/addItemToCart" method="POST">
-						<input type="hidden" name="id" id="id" value=${list.id } />
-						<button type="submit" class="purchase-button">Add to Cart</button>
-					</form>
+
 					<br>
 					<form action="/viewComments" method="POST">
 						<input type="hidden" name="id" id="id" value=${list.id } />
-						<button type="submit" class="purchase-button">View Comments/Reviews</button>
+						<button type="submit" class="purchase-button">View
+							Comments/Reviews</button>
 					</form>
 					<!-- 	<button type="submit" class="purchase-button">Purchase</button> -->
 				</div>
@@ -95,6 +109,8 @@
 		</c:forEach>
 	</div>
 	<div>
+
+
 		<form action="/viewCart" method="GET" class="form-inline my-2 my-lg-0">
 			<button class="btn btn-secondary my-2 my-sm-0" type="submit">View
 				Cart</button>

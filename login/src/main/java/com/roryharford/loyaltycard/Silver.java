@@ -1,14 +1,17 @@
 package com.roryharford.loyaltycard;
 
 public class Silver implements LoyaltyCardDiscount {
-	
-	  private final String name;
+//	 private final String name;
+	private static Silver instance = new Silver();
 
-	  
-	  public Silver(String name) {
-			this.name = name;
+	// instantiated
+	private Silver() {
 
-		}
+	}
+
+	public static Silver getInstance() {
+		return instance;
+	}
 
 	@Override
 	public double discount(double amount) {

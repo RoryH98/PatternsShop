@@ -66,15 +66,17 @@ public class ItemController {
     	
     	if(loyaltyCard.equalsIgnoreCase("Gold"))
     	{
-    		
-    		cart.setTotal(cart.discount(new Gold(loyaltyCard)));
+    		Gold object = Gold.getInstance();
+    		cart.setTotal(cart.discount(object));
     	}
     	else if(loyaltyCard.equalsIgnoreCase("Silver"))
     	{
-    		cart.discount(new Silver(loyaltyCard));
+    		Silver object = Silver.getInstance();
+    		cart.setTotal(cart.discount(object));
     	} else if(loyaltyCard.equalsIgnoreCase("Standard"))
     	{
-    		cart.discount(new Standard(loyaltyCard));
+    		Standard object = Standard.getInstance();
+    		cart.setTotal(cart.discount(object));
     	}
     	
     	model.addAttribute("cartPrice", cart.getTotal());
