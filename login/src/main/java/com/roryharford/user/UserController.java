@@ -37,6 +37,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -76,6 +78,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.roryharford.card.Card;
 import com.roryharford.card.CardService;
 import com.roryharford.card.CardValidator;
+import com.roryharford.decorator.TypeOfUser;
 import com.roryharford.item.InStockItem;
 //import com.roryharford.event.Event;
 //import com.roryharford.ticket.Ticket;
@@ -86,22 +89,21 @@ import com.roryharford.item.ItemService;
 import com.roryharford.item.ItemState;
 import com.roryharford.item.OutOfItem;
 
-
 //will eventually be mapped to Customer
 @Controller
 public class UserController {
-	//since not an api think of adapting it more
+	// since not an api think of adapting it more
 	private ArrayList<Item> list = new ArrayList<Item>();
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private ItemService itemService;
-	
+
 	@Autowired
 	private CardService cardService;
-	
+
 	@Autowired
 	private CardValidator cardValidator;
 
@@ -114,48 +116,93 @@ public class UserController {
 		return "homepage";
 	}
 
+//	@RequestMapping(value = { "/login" }, method = RequestMethod.GET)
+//	public String login(@RequestParam("email") String email,@RequestParam("password") String password) {
+////		String username = request.getParameter("username");
+////		String password = request.getParameter("password");
+//		System.out.println("HELLO "+password);
+//		 if (email.equalsIgnoreCase("Admin@Admin.Admin") && password.equalsIgnoreCase("Admin123")) {
+////				session.setAttribute("admin", username);
+//				
+////				UserType user1 = new AdminUser();
+////				return user1.login();
+//
+//			} 
+//
+//		return "homepage";
+//	}
+
 	@RequestMapping(value = "/homepage")
-	public String redirect(Model model) {
+	public String redirect(Model model, HttpSession session) {
 //		Item item = new Item("Toaster",20,1"https://target.scene7.com/is/image/Target/GUEST_087da4b9-d9a0-47ad-bed0-e39af7bcf89b?wid=488&hei=488&fmt=pjpeg");
 //		list.add(item);
-		 List<Item> items = new ArrayList<>();
-		 boolean state;
-		 ItemState outOfItem = new OutOfItem();
-		 ItemState inStockItem = new InStockItem();
+		List<Item> items = itemService.getAllItems();
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = userService.getUserByEmail(auth.getName());
+        System.out.println("Users password "+user.getPassword());
+		
+		boolean state;
+		ItemState outOfItem = new OutOfItem();
+		ItemState inStockItem = new InStockItem();
 //		 User newAdmin = new User("Admin", "N/A", "Admin@Admin.Admin", "N/A", "Admin", 2);
 //		 userService.createCustomer(newAdmin);
-		 for(int i=0; i<itemService.getAllItems().size();i++) {
-			 Item item = itemService.getItem(i+1);
-			 if(itemService.getAllItems().get(i).getStock()<=0) {
-				 state = outOfItem.stateOfStock();
-				 item.setItemState(state);
-				 System.out.println("Item name Plus "+state);
+		for (int i = 0; i < itemService.getAllItems().size(); i++) {
+			Item item = itemService.getItem(i + 1);
+			if (itemService.getAllItems().get(i).getStock() <= 0) {
+				state = outOfItem.stateOfStock();
+				item.setItemState(state);
+				System.out.println("Item name Plus " + state);
 //				 model.addAttribute("state","Out Of Stock");
-			 }
-			 else
-			 {
-				 state = inStockItem.stateOfStock();
-				 item.setItemState(state);
-				 System.out.println("Item name Plus "+item.getItemName()+"State of item "+state);
+			} else {
+				state = inStockItem.stateOfStock();
+				item.setItemState(state);
+				System.out.println("Item name Plus " + item.getItemName() + "State of item " + state);
 //				 state = inStockItem.stateOfStock();
 //				 model.addAttribute("state","In Stock");
-			 }
-			 itemService.updateItem(item.getId(), item);
+			}
+			itemService.updateItem(item.getId(), item);
+
+		}
+		System.out.println("AMOUNT" + itemService.getAllItems().size());
+		session.setAttribute("searchList", items);
+		model.addAttribute("lists", items);
+		TypeOfUser user1;
+		 if (user.getEmail().equalsIgnoreCase("Admin@Admin.Admin") && user.getPassword().equalsIgnoreCase("$2a$10$HtFJVCLq2OCduYJzySEQfu1YztpUZfaTvfyZBufgrWGdjCUigYPHe")) {
+//				session.setAttribute("admin", username);
 			
+				 user1 = new Admin();
+				return user1.login();
+
+		} 
+		 else
+		 {
+			 user1 = new User();
+			 return user1.login();
 		 }
-		System.out.println("AMOUNT"+itemService.getAllItems().size());
-		model.addAttribute("lists", itemService.getAllItems());
-		return "success";
 	}
-	
+
 	@RequestMapping("/Admin")
-	public String  Admin() {
+	public String Admin() {
 		System.out.println("\nGoing to the Admin Page");
 		return "success";
 	}
 
+	@RequestMapping("/userDetails")
+	public String userDetails(Model model) {
+		final ArrayList<User> users;
+		users = (ArrayList<User>) userService.getAllUsers();
+		CustomerList user = new CustomerList(users);
 
-	
+		ArrayList<User> listAll = new ArrayList<User>();
+		for (Iterator iter = user.getIterator(); iter.hasNext();) {
+			User user1 = (User) iter.next();
+			listAll.add(user1);
+		}
+		model.addAttribute("lists", listAll);
+		return "usersTickets";
+
+	}
 
 	@RequestMapping("/users")
 	public List<User> getAllUsers() {
@@ -189,16 +236,8 @@ public class UserController {
 
 	}
 
-	@RequestMapping(value = { "/login" }, method = RequestMethod.GET)
-	public String login() {
-
-		return "homepage";
-	}
-
-
 	@RequestMapping("/logout")
 	public String logoutCustomer(HttpServletRequest request) {
-		
 
 		HttpSession session = request.getSession();
 		session.invalidate();
@@ -206,35 +245,27 @@ public class UserController {
 
 	}
 
-
 	@PostMapping("/register")
-	public String createUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult,@RequestParam String address, @RequestParam String town, @RequestParam String county, 
-			@RequestParam String number, @RequestParam String choice, @RequestParam String fname, @RequestParam String lname, @RequestParam int date, @RequestParam int year) {
+	public String createUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult,
+			@RequestParam String address, @RequestParam String town, @RequestParam String county,
+			@RequestParam String number, @RequestParam String choice, @RequestParam String fname,
+			@RequestParam String lname, @RequestParam int date, @RequestParam int year) {
 		// change to their email
 		User userExists = userService.getUser(user.getId());
 		int type = Integer.parseInt(choice);
 		Card card = new Card(fname, lname, address, town, county, number, type, date, year);
-		
-			
-	
+
 		Card validCard = cardValidator.initComponents(card);
-		if(validCard !=null) {
+		if (validCard != null) {
 			cardService.addCard(validCard);
 			user.setCard(validCard);
 			userService.createCustomer(user);
-		}
-		else {
+		} else {
 			System.out.println("ERROR-TRY AGAIN");
 			return "register";
 		}
-		
-		
-		
-		
-		
-		
-		
-        System.out.println("ADDRESS "+address);
+
+		System.out.println("ADDRESS " + address);
 //			bindingResult.rejectValue("username", "error.user");
 //		}
 //		if (bindingResult.hasErrors()) {
@@ -243,8 +274,6 @@ public class UserController {
 ////			String errorMessage = "";
 ////			model.addObject("errorMessage", errorMessage);
 //		} else {
-		
-		
 
 //			String successMessage = "";
 //			model.addObject("successMessage", successMessage);
@@ -255,7 +284,6 @@ public class UserController {
 //  return null;
 
 	}
-
 
 	@RequestMapping("/registerPage")
 	public String showRegister() {

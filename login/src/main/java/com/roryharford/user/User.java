@@ -20,12 +20,13 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.roryharford.card.Card;
+import com.roryharford.decorator.TypeOfUser;
 import com.roryharford.order.Order;
 
 //Creates Table in DB
 @Entity
 @Table(name = "user")
-public class User {
+public class User  implements TypeOfUser{
 
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -162,6 +163,12 @@ public class User {
 
 	public void setOrders(List<Order> orders) {
 		this.orders = orders;
+	}
+
+	@Override
+	public String login() {
+		// TODO Auto-generated method stub
+		return "success";
 	}
 	
 	

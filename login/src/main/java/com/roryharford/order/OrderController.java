@@ -79,24 +79,77 @@ import com.itextpdf.text.pdf.PdfWriter;
 //import com.roryharford.ticket.TicketService;
 import com.roryharford.item.Item;
 import com.roryharford.item.ItemService;
-
+import com.roryharford.sorting.SortByName;
+import com.roryharford.sorting.SortingContext;
+import com.roryharford.user.CustomerList;
+import com.roryharford.user.Iterator;
+import com.roryharford.user.OrderList;
+import com.roryharford.user.User;
+import com.roryharford.user.UserService;
 
 //will eventually be mapped to Customer
 @Controller
 public class OrderController {
-	//since not an api think of adapting it more
+	// since not an api think of adapting it more
 
 	@Autowired
-	private OrderService userService;
-	
+	private OrderService orderService;
+
+	@Autowired
+	private UserService userService;
+
 	@Autowired
 	private ItemService itemService;
-	
 
 //	@Autowired
 //	private TicketService ticketService;
+
+	@RequestMapping("/viewUsersPurchaseHistory")
+	public String userDetails(Model model, @RequestParam("id") String id) {
+		int newId = Integer.parseInt(id);
+		User user = userService.getUser(newId);
+		List<Order> usersOrder = user.getOrders();
+
+		final List<Order> order;
+		order = user.getOrders();
+		OrderList customOrders = new OrderList(order);
+
+		ArrayList<Order> listAll = new ArrayList<Order>();
+		for (Iterator iter = customOrders.getIterator(); iter.hasNext();) {
+			Order nextOrder = (Order) iter.next();
+//			if(nextOrder.get)
+			for (Order o : usersOrder) {
+				if (o.getId() == nextOrder.getId()) {
+					System.out.println("nextOrder Name" +nextOrder.getAmount());
+					listAll.add(nextOrder);
+
+				}
+			}
+		}
+		model.addAttribute("lists", listAll);
+		return "usersTickets";
+
+	}
 	
-	
+	@RequestMapping(value ="/AscendingByName", method = RequestMethod.GET)
+	public String ascendByName(Model model,HttpSession session) {
+		SortingContext context = new SortingContext();
+		context.setSortingMethod(new SortByName());
+		List<Item> items = (List<Item>) session.getAttribute("searchList");
+		context.ascendingSort(items);
+		model.addAttribute("lists", items);
+		return "success";
+	}
+	@RequestMapping(value ="/DecendingByName", method = RequestMethod.GET)
+	public String decendByName(Model model,HttpSession session) {
+		SortingContext context = new SortingContext();
+		context.setSortingMethod(new SortByName());
+		List<Item> items = (List<Item>) session.getAttribute("searchList");
+		context.descendingSort(items);
+		model.addAttribute("lists", items);
+		return "success";
+	}
+
 
 
 }
