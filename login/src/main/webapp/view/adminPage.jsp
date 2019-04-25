@@ -45,8 +45,8 @@
 					href="http://localhost:8080/homepage">Home <span
 						class="sr-only">(current)</span>
 				</a></li>
-				<li class="nav-item"><a class="nav-link" href="/viewCart">View
-						Your Cart</a></li>
+			<!-- 	<li class="nav-item"><a class="nav-link" href="/viewCart">View
+						Your Cart</a></li> -->
 				<li class="nav-item"><a class="nav-link" href="/userDetails">View All Users</a></li>
 				<li class="nav-item"><a class="nav-link" href="/Admin">Admin
 						Access Only </a></li>
@@ -100,11 +100,6 @@
 					<!-- <p><a href="<c:url value='/purchase-tickets'><c:param name="id" value="${list.id}"/></c:url>">Purchase</a></p> -->
 
 					<br>
-					<form action="/viewComments" method="POST">
-						<input type="hidden" name="id" id="id" value=${list.id } />
-						<button type="submit" class="purchase-button">View
-							Comments/Reviews</button>
-					</form>
 					<!-- 	<button type="submit" class="purchase-button">Purchase</button> -->
 				</div>
 			</div>

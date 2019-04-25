@@ -9,7 +9,7 @@ import com.roryharford.loyaltycard.LoyaltyCardDiscount;
 public class Cart {
 
 	double total = 0.0;
-	
+
 	private List<Item> items = new ArrayList<>();
 
 	public Cart() {
@@ -23,8 +23,6 @@ public class Cart {
 	public void setTotal(double total) {
 		this.total = total;
 	}
-
-	
 
 	public List<Item> getItems() {
 		return items;
@@ -49,13 +47,17 @@ public class Cart {
 
 		double totalCost = calcTotalCost();
 		// setTotal(totalCost);
-		System.out.println("le price "+method.discount(totalCost));
+		System.out.println("le price " + method.discount(totalCost));
 		return method.discount(totalCost);
 
 	}
 
 	public void addItemToCart(Item item) {
 		items.add(item);
+	}
+
+	public void removeItemToCart(Item item) {
+		items.remove(item);
 	}
 
 	public List<Item> getCart() {

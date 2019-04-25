@@ -121,6 +121,22 @@ public class ItemController {
 	}
 
 	
+	@RequestMapping(value = "/removeItem", method = RequestMethod.POST)
+	public String reomveItem(Model model, @RequestParam("id") String id) {
+		System.out.println("ADDED THE ITEM TO THE CART");
+		int newId = Integer.parseInt(id);
+		Item item = itemService.getItem(newId);
+		for(int i=0; i<cart.getCart().size();i++) {
+			if(cart.getCart().get(i).getId() == item.getId())
+			{
+				cart.removeItemToCart(cart.getCart().get(i));
+				break;
+			}
+		}
+		model.addAttribute("cartPrice", cart.calcTotalCost());
+		model.addAttribute("lists", cart.getCart());
+		return "usersCart";
+	}
 
 	@RequestMapping(value="/orderInProduct",method=RequestMethod.POST)
 	public String orderInProduct(Model model,@RequestParam("id") String id,@RequestParam("amount") String amount) {
@@ -170,17 +186,24 @@ public class ItemController {
 		System.out.println("\n Cart Size now " + cart.getCart().get(0).getItemName());
 		for (int i = 0; i < cart.getCart().size(); i++) {
 			item = cart.getCart().get(i);
-			item.setStock(item.getStock() - 1);
+			Item stockItem =itemService.getItem(item.getId());
+			System.out.println("\nSTOCK "+stockItem.getStock());
+			itemService.updateItem(stockItem.getId(), stockItem);
+			stockItem.setStock(stockItem.getStock() - 1);
 			System.out.println(item.getItemName());
 			order.addItem(item);
+			System.out.println("STOCK "+stockItem.getStock());
+			itemService.updateItem(stockItem.getId(), stockItem);
+			System.out.println("STOCK "+stockItem.getStock());
 		}
 		user.getOrders().add(order);
-		order.setAmount(cart.getTotal());
+		order.setAmount(cart.calcTotalCost());
 
 		orderService.updateOrder(order.getId(), order);
 
 		System.out.println("User Purchased Basket");
 		model.addAttribute("lists", itemService.getAllItems());
+		cart = new Cart();
 		return "success";
 	}
 

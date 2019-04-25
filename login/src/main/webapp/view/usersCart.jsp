@@ -72,7 +72,7 @@
 					<br>
 					<form id="removeItem" method="Post" action="/removeItem"
 						novalidate="novalidate" target="_blank">
-						<input type="hidden" name="id" id="id" value=${list.id } />
+						<input type="hidden" name="id" id="id" value=${list.id} />
 						<button class="purchase-button">Remove Item</button>
 					</form>
 				</div>

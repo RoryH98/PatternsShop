@@ -17,7 +17,7 @@
 <meta http-equiv="Expires" content="sat, 01 Dec 2001 00:00:00 GMT">
 </head>
 
-<title>Payment Page</title>
+<title>Display User</title>
 
 <!-- Bootstrap core CSS -->
 <link
