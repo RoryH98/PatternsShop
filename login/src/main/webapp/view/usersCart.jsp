@@ -72,22 +72,54 @@
 					<br>
 					<form id="removeItem" method="Post" action="/removeItem"
 						novalidate="novalidate" target="_blank">
-						<input type="hidden" name="id" id="id" value=${list.id} />
+						<input type="hidden" name="id" id="id" value=${list.id } />
 						<button class="purchase-button">Remove Item</button>
 					</form>
 				</div>
 			</div>
 		</c:forEach>
 	</div>
-	<form action="confirmLoyaltyCard" method="post">
+
+	<%-- <c:choose>
+		<c:when test="${!list.state}">Out of Stock</c:when>
+		<c:when test="${list.state}">
+			<form action="/addItemToCart" method="POST">
+				<input type="hidden" name="id" id="id" value=${list.id } />
+				<button type="submit" class="purchase-button">Add to Cart</button>
+			</form>
+		</c:when>
+	</c:choose> --%>
+	<form action="/confirmLoyaltyCard" method="post">
 		<label for="Loyalty Card" class="control-label">Loyalty Card
 			Type</label> <br> <select id="loyaltyCard" name="loyaltyCard">
-			<option value="Standard">Standard 10%</option>
-			<option value="Silver">Silver 20%</option>
-			<option value="Gold">Gold 30%</option>
+			<c:choose>
+				<c:when test="${!user.usedStandard}">
+					<option value="Standard">Standard 10%</option>
+				</c:when>
+			</c:choose>
+			<c:choose>
+				<c:when test="${!user.usedSilver}">
+					<option value="Silver">Silver 20%</option>
+				</c:when>
+			</c:choose>
+			<c:choose>
+				<c:when test="${!user.usedGold}">
+					<option value="Gold">Gold 30%</option>
+				</c:when>
+			</c:choose>
+			<c:choose>
+				<c:when
+					test="${(!user.usedGold) or (!user.usedSilver) or (!user.usedStandard)}">
+				</c:when>
+				<c:otherwise>
+					<option value="Sorry you used up your welcome offer">Sorry you used up your welcome offer</option>
+				</c:otherwise>
+			</c:choose>
+
 		</select>
-		<button id="itemButton" class="form-control">Confirm Loyalty
-			Card</button>
+		<button id="itemButton" class="form-control">Pay with loyalty
+			card/Pay</button>
+
 	</form>
 	<form action="/goToPayment" method="GET"
 		class="form-inline my-2 my-lg-0">

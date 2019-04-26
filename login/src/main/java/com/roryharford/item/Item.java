@@ -37,10 +37,11 @@ public class Item  {
 	private String manufacturer;
 	private String category;
 	@OneToMany(fetch = FetchType.EAGER)
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "item_id")
 	private List<Comment> comments = new ArrayList<>();
 	
 	boolean state;
+	
 	
 
 	public Item() {
@@ -55,6 +56,8 @@ public class Item  {
 		this.imageUrl = imageUrl;
 		this.manufacturer = manufacturer;
 		this.category = category;
+		this.state=itemState;
+		
 		
 	}
 //	

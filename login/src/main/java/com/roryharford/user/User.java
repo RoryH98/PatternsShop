@@ -50,6 +50,10 @@ public class User  implements TypeOfUser{
 	private String shipping_Address;
 
 	private String password;
+	
+	boolean usedStandard;
+	boolean usedSilver;
+	boolean usedGold;
 
 	public User() {
 
@@ -61,12 +65,41 @@ public class User  implements TypeOfUser{
 		this.email = email;
 		this.shipping_Address = shipping_Address;
 		this.password = password;
+		this.usedSilver=false;
+		this.usedStandard=false;
+		this.usedGold=false;
 	}
 	
 	
 
 	public Card getCard() {
 		return card;
+	}
+	
+	
+
+	public boolean isUsedStandard() {
+		return usedStandard;
+	}
+
+	public void setUsedStandard(boolean usedStandard) {
+		this.usedStandard = usedStandard;
+	}
+
+	public boolean isUsedSilver() {
+		return usedSilver;
+	}
+
+	public void setUsedSilver(boolean usedSilver) {
+		this.usedSilver = usedSilver;
+	}
+
+	public boolean isUsedGold() {
+		return usedGold;
+	}
+
+	public void setUsedGold(boolean usedGold) {
+		this.usedGold = usedGold;
 	}
 
 	public void setCard(Card card) {

@@ -47,10 +47,8 @@
 				</a></li>
 				<li class="nav-item"><a class="nav-link" href="/viewCart">View
 						Your Cart</a></li>
-				<li class="nav-item"><a class="nav-link" href="/Admin">Admin
-						Access Only </a></li>
 				<li class="nav-item"><a class="nav-link"
-					href="http://localhost:8080/logout">Logout</a></li>
+					href="http://localhost:8080/exit">Logout</a></li>
 			</ul>
 
 			<form action="/searchProducts" method="GET"
@@ -120,6 +118,24 @@
 		</form>
 		<form action="/DecendingByName" method="GET" class="form-inline my-2 my-lg-0">
 			<button class="btn btn-secondary my-2 my-sm-0" type="submit">Filter By Name Z-A</button>
+		</form>
+		<form action="/AscendingByPrice" method="GET" class="form-inline my-2 my-lg-0">
+			<button class="btn btn-secondary my-2 my-sm-0" type="submit">Filter By Price 0-100</button>
+		</form>
+		<form action="/DecendingByPrice" method="GET" class="form-inline my-2 my-lg-0">
+			<button class="btn btn-secondary my-2 my-sm-0" type="submit">Filter By Price 100-0</button>
+		</form>
+		<form action="/AscendingByCategory" method="GET" class="form-inline my-2 my-lg-0">
+			<button class="btn btn-secondary my-2 my-sm-0" type="submit">Filter By Category A-Z</button>
+		</form>
+		<form action="/DecendingByCategory" method="GET" class="form-inline my-2 my-lg-0">
+			<button class="btn btn-secondary my-2 my-sm-0" type="submit">Filter By Category Z-A</button>
+		</form>
+		<form action="/AscendingByManufacturer" method="GET" class="form-inline my-2 my-lg-0">
+			<button class="btn btn-secondary my-2 my-sm-0" type="submit">Filter By Manufacturer A-Z</button>
+		</form>
+		<form action="/DecendingByManufacturer" method="GET" class="form-inline my-2 my-lg-0">
+			<button class="btn btn-secondary my-2 my-sm-0" type="submit">Filter By Manufacturer Z-A</button>
 		</form>
 	</div>
 </body>

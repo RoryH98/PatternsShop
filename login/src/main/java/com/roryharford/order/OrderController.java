@@ -79,7 +79,10 @@ import com.itextpdf.text.pdf.PdfWriter;
 //import com.roryharford.ticket.TicketService;
 import com.roryharford.item.Item;
 import com.roryharford.item.ItemService;
+import com.roryharford.sorting.SortByCategory;
+import com.roryharford.sorting.SortByManufacturer;
 import com.roryharford.sorting.SortByName;
+import com.roryharford.sorting.SortByPrice;
 import com.roryharford.sorting.SortingContext;
 import com.roryharford.user.CustomerList;
 import com.roryharford.user.Iterator;
@@ -127,7 +130,7 @@ public class OrderController {
 			}
 		}
 		model.addAttribute("lists", listAll);
-		return "usersTickets";
+		return "usersOrders";
 
 	}
 	
@@ -144,6 +147,63 @@ public class OrderController {
 	public String decendByName(Model model,HttpSession session) {
 		SortingContext context = new SortingContext();
 		context.setSortingMethod(new SortByName());
+		List<Item> items = (List<Item>) session.getAttribute("searchList");
+		context.descendingSort(items);
+		model.addAttribute("lists", items);
+		return "success";
+	}
+	
+	@RequestMapping(value ="/AscendingByPrice", method = RequestMethod.GET)
+	public String ascendByPrice(Model model,HttpSession session) {
+		SortingContext context = new SortingContext();
+		context.setSortingMethod(new SortByPrice());
+		List<Item> items = (List<Item>) session.getAttribute("searchList");
+		context.ascendingSort(items);
+		model.addAttribute("lists", items);
+		return "success";
+	}
+	@RequestMapping(value ="/DecendingByPrice", method = RequestMethod.GET)
+	public String decendByPrice(Model model,HttpSession session) {
+		SortingContext context = new SortingContext();
+		context.setSortingMethod(new SortByPrice());
+		List<Item> items = (List<Item>) session.getAttribute("searchList");
+		context.descendingSort(items);
+		model.addAttribute("lists", items);
+		return "success";
+	}
+	
+	@RequestMapping(value ="/AscendingByManufacturer", method = RequestMethod.GET)
+	public String ascendByManufacturer(Model model,HttpSession session) {
+		SortingContext context = new SortingContext();
+		context.setSortingMethod(new SortByManufacturer());
+		List<Item> items = (List<Item>) session.getAttribute("searchList");
+		context.ascendingSort(items);
+		model.addAttribute("lists", items);
+		return "success";
+	}
+	@RequestMapping(value ="/DecendingByManufacturer", method = RequestMethod.GET)
+	public String decendByManufacturer(Model model,HttpSession session) {
+		SortingContext context = new SortingContext();
+		context.setSortingMethod(new SortByManufacturer());
+		List<Item> items = (List<Item>) session.getAttribute("searchList");
+		context.descendingSort(items);
+		model.addAttribute("lists", items);
+		return "success";
+	}
+	
+	@RequestMapping(value ="/AscendingByCategory", method = RequestMethod.GET)
+	public String ascendByCategory(Model model,HttpSession session) {
+		SortingContext context = new SortingContext();
+		context.setSortingMethod(new SortByCategory());
+		List<Item> items = (List<Item>) session.getAttribute("searchList");
+		context.ascendingSort(items);
+		model.addAttribute("lists", items);
+		return "success";
+	}
+	@RequestMapping(value ="/DecendingByCategory", method = RequestMethod.GET)
+	public String decendByCategory(Model model,HttpSession session) {
+		SortingContext context = new SortingContext();
+		context.setSortingMethod(new SortByCategory());
 		List<Item> items = (List<Item>) session.getAttribute("searchList");
 		context.descendingSort(items);
 		model.addAttribute("lists", items);

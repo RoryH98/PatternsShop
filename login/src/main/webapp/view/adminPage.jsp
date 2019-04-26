@@ -45,11 +45,12 @@
 					href="http://localhost:8080/homepage">Home <span
 						class="sr-only">(current)</span>
 				</a></li>
-			<!-- 	<li class="nav-item"><a class="nav-link" href="/viewCart">View
+				<!-- 	<li class="nav-item"><a class="nav-link" href="/viewCart">View
 						Your Cart</a></li> -->
-				<li class="nav-item"><a class="nav-link" href="/userDetails">View All Users</a></li>
-				<li class="nav-item"><a class="nav-link" href="/Admin">Admin
-						Access Only </a></li>
+				<li class="nav-item"><a class="nav-link" href="/addAProduct">Add A Product</a></li>
+				<li class="nav-item"><a class="nav-link" href="/userDetails">View
+						All Users</a></li>
+
 				<li class="nav-item"><a class="nav-link"
 					href="http://localhost:8080/logout">Logout</a></li>
 			</ul>
@@ -85,17 +86,18 @@
 					</c:choose> --%>
 					<p class="price">€ ${list.price}</p>
 					<div>
-						 <c:choose> 
+						<c:choose>
 							<c:when test="${!list.state}">Out of Stock</c:when>
-						</c:choose> 
-							<%-- <c:when test="${list.state}"> --%>
-								<form action="/updateStock" method="POST">
-									<input type="hidden" name="id" id="id" value=${list.id} />
-									<button type="submit" class="purchase-button">Update Stock</button>
-								</form>
-								
-							 
-				
+						</c:choose>
+						<%-- <c:when test="${list.state}"> --%>
+						<form action="/updateStock" method="POST">
+							<input type="hidden" name="id" id="id" value=${list.id } />
+							<button type="submit" class="purchase-button">Update
+								Stock</button>
+						</form>
+
+
+
 					</div>
 					<!-- <p><a href="<c:url value='/purchase-tickets'><c:param name="id" value="${list.id}"/></c:url>">Purchase</a></p> -->
 
@@ -112,11 +114,15 @@
 			<button class="btn btn-secondary my-2 my-sm-0" type="submit">View
 				Cart</button>
 		</form>
-		<form action="/AscendingByName" method="GET" class="form-inline my-2 my-lg-0">
-			<button class="btn btn-secondary my-2 my-sm-0" type="submit">Filter By Name A-Z</button>
+		<form action="/AscendingByName" method="GET"
+			class="form-inline my-2 my-lg-0">
+			<button class="btn btn-secondary my-2 my-sm-0" type="submit">Filter
+				By Name A-Z</button>
 		</form>
-		<form action="/DecendingByName" method="GET" class="form-inline my-2 my-lg-0">
-			<button class="btn btn-secondary my-2 my-sm-0" type="submit">Filter By Name Z-A</button>
+		<form action="/DecendingByName" method="GET"
+			class="form-inline my-2 my-lg-0">
+			<button class="btn btn-secondary my-2 my-sm-0" type="submit">Filter
+				By Name Z-A</button>
 		</form>
 	</div>
 </body>

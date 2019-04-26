@@ -115,6 +115,11 @@ public class UserController {
 
 		return "homepage";
 	}
+	@RequestMapping(value = "/exit")
+	public String logout() {
+
+		return "homepage";
+	}
 
 //	@RequestMapping(value = { "/login" }, method = RequestMethod.GET)
 //	public String login(@RequestParam("email") String email,@RequestParam("password") String password) {
@@ -147,8 +152,9 @@ public class UserController {
 		ItemState inStockItem = new InStockItem();
 //		 User newAdmin = new User("Admin", "N/A", "Admin@Admin.Admin", "N/A", "Admin", 2);
 //		 userService.createCustomer(newAdmin);
+		List<Item> itemList = itemService.getAllItems();
 		for (int i = 0; i < itemService.getAllItems().size(); i++) {
-			Item item = itemService.getItem(i + 1);
+			Item item = itemList.get(i);
 			if (itemService.getAllItems().get(i).getStock() <= 0) {
 				state = outOfItem.stateOfStock();
 				item.setItemState(state);
@@ -200,7 +206,7 @@ public class UserController {
 			listAll.add(user1);
 		}
 		model.addAttribute("lists", listAll);
-		return "usersTickets";
+		return "usersDisplay";
 
 	}
 
@@ -219,11 +225,11 @@ public class UserController {
 	public void addUser(@RequestBody User User) {
 		userService.addUser(User);
 	}
-
-	@PutMapping(value = "/users/{id}")
-	public void updateUser(@RequestBody User User, @PathVariable String id) {
-		userService.updateUser(id, User);
-	}
+//
+//	@PutMapping(value = "/users/{id}")
+//	public void updateUser(@RequestBody User User, @PathVariable String id) {
+//		userService.updateUser(id, User);
+//	}
 
 //	@DeleteMapping(value = "/users/{id}")
 //	public void deleteUser(@PathVariable String id) {
@@ -236,14 +242,14 @@ public class UserController {
 
 	}
 
-	@RequestMapping("/logout")
-	public String logoutCustomer(HttpServletRequest request) {
-
-		HttpSession session = request.getSession();
-		session.invalidate();
-		return "homepage";
-
-	}
+//	@RequestMapping("/logout")
+//	public String logoutCustomer(HttpServletRequest request) {
+//
+//		HttpSession session = request.getSession();
+//		session.invalidate();
+//		return "homepage";
+//
+//	}
 
 	@PostMapping("/register")
 	public String createUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult,
