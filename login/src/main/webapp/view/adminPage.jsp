@@ -47,12 +47,12 @@
 				</a></li>
 				<!-- 	<li class="nav-item"><a class="nav-link" href="/viewCart">View
 						Your Cart</a></li> -->
-				<li class="nav-item"><a class="nav-link" href="/addAProduct">Add A Product</a></li>
+				<li class="nav-item"><a class="nav-link" href="/addAProduct">Add
+						A Product</a></li>
 				<li class="nav-item"><a class="nav-link" href="/userDetails">View
 						All Users</a></li>
-
 				<li class="nav-item"><a class="nav-link"
-					href="http://localhost:8080/logout">Logout</a></li>
+					href="http://localhost:8080/exit">Logout</a></li>
 			</ul>
 
 			<form action="/searchProducts" method="GET"

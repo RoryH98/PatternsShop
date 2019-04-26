@@ -31,7 +31,7 @@
 <body class="text-center">
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<a class="navbar-brand" href="http://localhost:8080/homepage"><img
-			src="http://127.0.0.1:127/images/logo_2.png" height="70px" />SHOP </a>
+			src="http://127.0.0.1:127/images/logo_2.png" height="70px" /> SHOP</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#navbarColor03" aria-controls="navbarColor03"
 			aria-expanded="false" aria-label="Toggle navigation">
@@ -40,18 +40,22 @@
 
 		<div class="collapse navbar-collapse" id="navbarColor03">
 			<ul class="navbar-nav mr-auto">
-				<li class="nav-item"><a class="nav-link"
+				<li class="nav-item active"><a class="nav-link"
 					href="http://localhost:8080/homepage">Home <span
 						class="sr-only">(current)</span>
 				</a></li>
-				<li class="nav-item active"><a class="nav-link"
-					href="/viewTickets">View Your Cart</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">Account
-						Information</a></li>
+				<li class="nav-item"><a class="nav-link" href="/viewCart">View
+						Your Cart</a></li>
 				<li class="nav-item"><a class="nav-link"
-					href="http://localhost:8080/logout">Logout</a></li>
+					href="http://localhost:8080/exit">Logout</a></li>
 			</ul>
-			</ul>
+
+			<form action="/searchProducts" method="GET"
+				class="form-inline my-2 my-lg-0">
+				<input id="keyword" name="keyword" class="form-control mr-sm-2"
+					type="text" placeholder="Search">
+				<button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+			</form>
 		</div>
 	</nav>
 	<%-- <br>Image here: <img src= ${picUrl} />--%>
@@ -112,7 +116,8 @@
 					test="${(!user.usedGold) or (!user.usedSilver) or (!user.usedStandard)}">
 				</c:when>
 				<c:otherwise>
-					<option value="Sorry you used up your welcome offer">Sorry you used up your welcome offer</option>
+					<option value="Sorry you used up your welcome offer">Sorry
+						you used up your welcome offer</option>
 				</c:otherwise>
 			</c:choose>
 

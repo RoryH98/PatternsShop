@@ -13,10 +13,10 @@ public class CustomerList implements Container {
 	@Override
 	public Iterator getIterator() {
 		// TODO Auto-generated method stub
-		return new CustomerIterator();
+		return new UserIterator();
 	}
 
-	private class CustomerIterator implements Iterator {
+	private class UserIterator implements Iterator {
 		int index;
 
 		@Override

@@ -94,7 +94,6 @@ public class ItemController {
 			if (user.isUsedGold() == false) {
 				Gold object = Gold.getInstance();
 				cart.setTotal(cart.discount(object));
-				System.out.println("CART PRICE " + cart.getTotal());
 				user.setUsedGold(true);
 				userService.updateUser(user.getId(), user);
 				payment(model);
@@ -176,7 +175,21 @@ public class ItemController {
 		}
 		session.setAttribute("searchList", items);
 		model.addAttribute("lists", items);
-		return "success";
+		TypeOfUser user1;
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = userService.getUserByEmail(auth.getName());
+		 if (user.getEmail().equalsIgnoreCase("Admin@Admin.Admin") && user.getPassword().equalsIgnoreCase("$2a$10$HtFJVCLq2OCduYJzySEQfu1YztpUZfaTvfyZBufgrWGdjCUigYPHe")) {
+//				session.setAttribute("admin", username);
+			
+				 user1 = new Admin();
+				return user1.login();
+
+		} 
+		 else
+		 {
+			 user1 = new User();
+			 return user1.login();
+		 }
 	}
 
 	@RequestMapping(value = "/updateStock", method = RequestMethod.POST)
